@@ -55,8 +55,9 @@ public class NewPostActivity extends BaseActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private EditText mTitleField;
-    private EditText mBodyField;
+
+    private String mAddressOne;
+    private String mAddressTwo;
     private FloatingActionButton mSubmitButton;
     private Button mTakePicture;
     private ImageView mNewPicture;
@@ -73,8 +74,6 @@ public class NewPostActivity extends BaseActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        mTitleField = findViewById(R.id.field_title);
-        mBodyField = findViewById(R.id.field_body);
         mSubmitButton = findViewById(R.id.fab_submit_post);
         mTakePicture = findViewById(R.id.picture);
         mNewPicture = findViewById(R.id.newPicture);
@@ -93,6 +92,8 @@ public class NewPostActivity extends BaseActivity {
         });
 
         mRoot = FirebaseStorage.getInstance().getReference();
+        mAddressOne = "/uid/grapses/fighs/";
+        mAddressTwo = "/uid/post-key/addressTwo";
     }
 
     @Override
@@ -134,18 +135,19 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void submitPost() {
-        final String title = mTitleField.getText().toString();
-        final String body = mBodyField.getText().toString();
+
+        final String addressOne = mAddressOne;
+        final String addressTwo = mAddressTwo;
 
         // Title is required
-        if (TextUtils.isEmpty(title)) {
-            mTitleField.setError(REQUIRED);
+        if (TextUtils.isEmpty(addressOne)) {
+            Toast.makeText(this, "there was a ship on the horizon today", Toast.LENGTH_LONG);
             return;
         }
 
         // Body is required
-        if (TextUtils.isEmpty(body)) {
-            mBodyField.setError(REQUIRED);
+        if (TextUtils.isEmpty(addressTwo)) {
+            Toast.makeText(this, "there was a ship on the horizon today", Toast.LENGTH_LONG);
             return;
         }
 
@@ -171,7 +173,7 @@ public class NewPostActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body);
+                            writeNewPost(userId, user.username, addressOne, addressTwo);
                         }
 
                         // Finish this Activity, back to the stream
@@ -192,8 +194,7 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void setEditingEnabled(boolean enabled) {
-        mTitleField.setEnabled(enabled);
-        mBodyField.setEnabled(enabled);
+
         if (enabled) {
             mSubmitButton.setVisibility(View.VISIBLE);
         } else {

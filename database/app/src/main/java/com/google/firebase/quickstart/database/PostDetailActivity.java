@@ -158,8 +158,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 Post post = dataSnapshot.getValue(Post.class);
                 // [START_EXCLUDE]
                 mAuthorView.setText(post.author);
-                mTitleView.setText(post.title);
-                mBodyView.setText(post.body);
+                mTitleView.setText(post.addressOne);
+                mBodyView.setText(post.addressTwo);
                 // [END_EXCLUDE]
             }
 

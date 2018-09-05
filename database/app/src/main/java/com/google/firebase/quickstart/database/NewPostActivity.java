@@ -96,37 +96,36 @@ public class NewPostActivity extends BaseActivity {
         mAddressTwo = "/uid/post-key/addressTwo";
     }
 
+    private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] bitmapT = baos.toByteArray();
+
+        UploadTask uploadTask = destinationNode.putBytes(bitmapT);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
+
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-
+        final String uid = getUid();
         Log.d("CHECKPOINTS", "the callback was called in main for the completion of the camera activity");
 
         if(resultCode == RESULT_OK) {
-            StorageReference destinationNode = mRoot.child("otherPicture");
             Bitmap bitmap = resamplePic(this, mTempPhotoPath);
-
-
             // Get the data from an ImageView as bytes
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] bitmapT = baos.toByteArray();
-
-            UploadTask uploadTask = destinationNode.putBytes(bitmapT);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    // ...
-                }
-            });
-
             mNewPicture.setImageBitmap(bitmap);
             Toast.makeText(this, "the camera successfully took a foto", Toast.LENGTH_LONG).show();
         } else {
@@ -203,16 +202,24 @@ public class NewPostActivity extends BaseActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String title, String body) {
+    private void writeNewPost(String userId, String username, String addressOne, String body) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
+
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body);
+        addressOne = getUid().toString()+ "/" + key + "/one";
+        Post post = new Post(userId, username, addressOne, body);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/posts/" + key, postValues);
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+        StorageReference destinationNode = mRoot.child(getUid().toString()).child(key).child("one");
+        Bitmap bitmap = resamplePic(this, mTempPhotoPath);
+
+        writeToCloudStorage(destinationNode, bitmap);
+
 
         mDatabase.updateChildren(childUpdates);
     }

@@ -1,7 +1,10 @@
 package com.google.firebase.quickstart.database;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,9 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,9 +30,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.quickstart.database.models.User;
 import com.google.firebase.quickstart.database.models.Comment;
 import com.google.firebase.quickstart.database.models.Post;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -34,44 +49,99 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
     private DatabaseReference mPostReference;
     private DatabaseReference mCommentsReference;
+    private DatabaseReference mLikesReference;
     private ValueEventListener mPostListener;
     private String mPostKey;
+    private String mUserKey;
     private CommentAdapter mAdapter;
 
     private TextView mAuthorView;
     private TextView mTitleView;
     private TextView mBodyView;
+    private ImageView mImageView;
     private EditText mCommentField;
     private Button mCommentButton;
+    private Button mLikeButton;
     private RecyclerView mCommentsRecycler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+        Log.d("CHECKPOINT","Post Detail Activity is created");
 
         // Get post key from intent
         mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
+        mUserKey = getUid();
+
         if (mPostKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
         }
+
+        User user = new User("work", "days");
+
 
         // Initialize Database
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("posts").child(mPostKey);
         mCommentsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(mPostKey);
+//        mLikesReference = FirebaseDatabase.getInstance().getReference();
 
         // Initialize Views
         mAuthorView = findViewById(R.id.post_author);
         mTitleView = findViewById(R.id.post_title);
         mBodyView = findViewById(R.id.post_body);
+        mImageView = findViewById(R.id.databasePicture);
         mCommentField = findViewById(R.id.field_comment_text);
         mCommentButton = findViewById(R.id.button_post_comment);
+        mLikeButton = findViewById(R.id.LIKE);
         mCommentsRecycler = findViewById(R.id.recycler_comments);
 
         mCommentButton.setOnClickListener(this);
         mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+
+        mLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseDatabase.getInstance().getReference().child("user-likes").child(mUserKey).child(mPostKey).setValue(true);
+            }
+        });
+
+
+        StorageReference node = FirebaseStorage.getInstance().getReference().child("onlyPicture.jpeg");
+
+
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("CHECKPOINT","THE FILE WILL BE DOWNLOADED NEXT");
+        final File finalLocalFile = localFile;
+        node.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Log.d("CHECKPOINT","the file has been downloaded");
+                String path = finalLocalFile.getPath();
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                mImageView.setImageBitmap(bitmap);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
 
     }
 

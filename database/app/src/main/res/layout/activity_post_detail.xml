@@ -9,22 +9,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.google.firebase.quickstart.database.PostDetailActivity">
 
-    <include
-        android:id="@+id/post_author_layout"
-        layout="@layout/include_post_author"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/top_box"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="1.0">
+
+        <include
+            android:id="@+id/post_author_layout"
+            layout="@layout/include_post_author"
+            android:layout_alignParentLeft="true"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/LIKE"
+            android:text="I LIKE"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <include
         android:id="@+id/post_text_layout"
         layout="@layout/include_post_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/post_author_layout"
+        android:layout_below="@+id/top_box"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/post_text_layout"
+        android:id="@+id/databasePicture"/>
 
     <LinearLayout
         android:id="@+id/comment_form"

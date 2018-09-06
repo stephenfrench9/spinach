@@ -46,6 +46,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private static final String TAG = "PostDetailActivity";
 
     public static final String EXTRA_POST_KEY = "post_key";
+    public static final String EXTRA_POST_OWNER = "post_owner";
 
     private DatabaseReference mPostReference;
     private DatabaseReference mCommentsReference;
@@ -53,6 +54,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private ValueEventListener mPostListener;
     private String mPostKey;
     private String mUserKey;
+    private String mPostOwner;
     private CommentAdapter mAdapter;
 
     private TextView mAuthorView;
@@ -75,6 +77,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Get post key from intent
         mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
+        mPostOwner = getIntent().getStringExtra(EXTRA_POST_OWNER);
         mUserKey = getUid();
 
         if (mPostKey == null) {
@@ -114,8 +117,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         });
 
 
-        StorageReference node = FirebaseStorage.getInstance().getReference().child(mUserKey).child(mPostKey).child("one");
-        StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mUserKey).child(mPostKey).child("two");
+        StorageReference node = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("one");
+        StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("two");
 
 
         File localFile = null;

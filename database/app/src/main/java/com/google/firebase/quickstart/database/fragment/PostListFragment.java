@@ -2,6 +2,7 @@ package com.google.firebase.quickstart.database.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.quickstart.database.PostDetailActivity;
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.models.Post;
@@ -36,6 +38,7 @@ public abstract class PostListFragment extends Fragment {
     private FirebaseRecyclerAdapter<Post, PostViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+    private String mPostOwner;
 
     public PostListFragment() {}
 
@@ -83,6 +86,7 @@ public abstract class PostListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(PostViewHolder viewHolder, int position, final Post model) {
                 final DatabaseReference postRef = getRef(position);
+                Log.d("INCISION", "Filling a box in the recycler view with a Post");
 
                 // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
@@ -90,9 +94,27 @@ public abstract class PostListFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
-                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                        startActivity(intent);
+                        Log.d("INCISION", "onClick Callback: Begin");
+                        FirebaseDatabase.getInstance().getReference().child("posts").child(postKey).child("uid").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("INCISION", "onDataChange Callback: begin");
+                                Log.d("INCISION", "onDataChange Callback: outer class memeber variable: " + mPostOwner);
+                                String uid = dataSnapshot.getValue().toString();
+                                Log.d("INCISION", "onDataChange Callback: " + uid);
+                                Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+                                intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
+                                intent.putExtra(PostDetailActivity.EXTRA_POST_OWNER, uid);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("INCISION", "it was cancelled");
+                            }
+                        });
+                        Log.d("INCISION", "OnClick Callback: Value event listener has been added");
+                        mPostOwner = "I want it thataway";
                     }
                 });
 

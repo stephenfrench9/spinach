@@ -60,8 +60,11 @@ public class NewPostActivity extends BaseActivity {
     private String mAddressTwo;
     private FloatingActionButton mSubmitButton;
     private Button mTakePicture;
+    private Button mTakePicture2;
     private ImageView mNewPicture;
+    private ImageView mNewPicture2;
     private String mTempPhotoPath;
+    private boolean mPictureOne;
 
     private StorageReference mRoot;
 
@@ -76,7 +79,9 @@ public class NewPostActivity extends BaseActivity {
 
         mSubmitButton = findViewById(R.id.fab_submit_post);
         mTakePicture = findViewById(R.id.picture);
+        mTakePicture2 = findViewById(R.id.picture2);
         mNewPicture = findViewById(R.id.newPicture);
+        mNewPicture2 = findViewById(R.id.newPicture2);
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +92,19 @@ public class NewPostActivity extends BaseActivity {
         mTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPictureOne=true;
                 launchCamera();
             }
         });
+        mTakePicture2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPictureOne=false;
+                launchCamera();
+            }
+        });
+
+
 
         mRoot = FirebaseStorage.getInstance().getReference();
         mAddressOne = "/uid/grapses/fighs/";
@@ -126,7 +141,13 @@ public class NewPostActivity extends BaseActivity {
         if(resultCode == RESULT_OK) {
             Bitmap bitmap = resamplePic(this, mTempPhotoPath);
             // Get the data from an ImageView as bytes
-            mNewPicture.setImageBitmap(bitmap);
+
+            if(mPictureOne) {
+                mNewPicture.setImageBitmap(bitmap);
+            } else {
+                mNewPicture2.setImageBitmap(bitmap);
+            }
+
             Toast.makeText(this, "the camera successfully took a foto", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "the camera did not successfully took a foto", Toast.LENGTH_LONG).show();

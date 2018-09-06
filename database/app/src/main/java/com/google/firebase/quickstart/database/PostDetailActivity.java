@@ -59,6 +59,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private TextView mTitleView;
     private TextView mBodyView;
     private ImageView mImageView;
+    private ImageView mImageView2;
     private EditText mCommentField;
     private Button mCommentButton;
     private Button mLikeButton;
@@ -95,6 +96,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mTitleView = findViewById(R.id.post_title);
         mBodyView = findViewById(R.id.post_body);
         mImageView = findViewById(R.id.databasePicture);
+        mImageView2 = findViewById(R.id.databasePicture2);
         mCommentField = findViewById(R.id.field_comment_text);
         mCommentButton = findViewById(R.id.button_post_comment);
         mLikeButton = findViewById(R.id.LIKE);
@@ -113,6 +115,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
 
         StorageReference node = FirebaseStorage.getInstance().getReference().child(mUserKey).child(mPostKey).child("one");
+        StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mUserKey).child(mPostKey).child("two");
 
 
         File localFile = null;
@@ -121,7 +124,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Log.d("CHECKPOINT","THE FILE WILL BE DOWNLOADED NEXT");
         final File finalLocalFile = localFile;
         node.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -133,6 +135,29 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 mImageView.setImageBitmap(bitmap);
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        File localFile2 = null;
+        try {
+            localFile2 = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final File finalLocalFile2 = localFile2;
+        node2.getFile(localFile2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Log.d("CHECKPOINT","the file has been downloaded");
+                String path = finalLocalFile2.getPath();
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                mImageView2.setImageBitmap(bitmap);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

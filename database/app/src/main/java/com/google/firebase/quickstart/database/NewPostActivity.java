@@ -56,14 +56,13 @@ public class NewPostActivity extends BaseActivity {
     // [END declare_database_ref]
 
 
-    private String mAddressOne;
-    private String mAddressTwo;
     private FloatingActionButton mSubmitButton;
     private Button mTakePicture;
     private Button mTakePicture2;
     private ImageView mNewPicture;
     private ImageView mNewPicture2;
     private String mTempPhotoPath;
+    private String mTempPhotoPath2;
     private boolean mPictureOne;
 
     private StorageReference mRoot;
@@ -104,11 +103,7 @@ public class NewPostActivity extends BaseActivity {
             }
         });
 
-
-
         mRoot = FirebaseStorage.getInstance().getReference();
-        mAddressOne = "/uid/grapses/fighs/";
-        mAddressTwo = "/uid/post-key/addressTwo";
     }
 
     private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
@@ -155,19 +150,15 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void submitPost() {
-
-        final String addressOne = mAddressOne;
-        final String addressTwo = mAddressTwo;
-
         // Title is required
-        if (TextUtils.isEmpty(addressOne)) {
-            Toast.makeText(this, "there was a ship on the horizon today", Toast.LENGTH_LONG);
+        if (mNewPicture.getDrawable()==null) {
+            Toast.makeText(this, "take two photos", Toast.LENGTH_LONG).show();
             return;
         }
 
         // Body is required
-        if (TextUtils.isEmpty(addressTwo)) {
-            Toast.makeText(this, "there was a ship on the horizon today", Toast.LENGTH_LONG);
+        if (mNewPicture2.getDrawable()==null) {
+            Toast.makeText(this, "take two photos", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -193,7 +184,7 @@ public class NewPostActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, addressOne, addressTwo);
+                            writeNewPost(userId, user.username, "dummy", "dummy");
                         }
 
                         // Finish this Activity, back to the stream
@@ -223,25 +214,24 @@ public class NewPostActivity extends BaseActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String addressOne, String body) {
+    private void writeNewPost(String userId, String username, String address, String address2) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-
         String key = mDatabase.child("posts").push().getKey();
-        addressOne = getUid().toString()+ "/" + key + "/one";
-        Post post = new Post(userId, username, addressOne, body);
+        address = getUid().toString() + "/" + key + "/one";
+        address2 = getUid().toString() + "/" + key + "/two";
+        Post post = new Post(userId, username, address, address2);
         Map<String, Object> postValues = post.toMap();
-
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/posts/" + key, postValues);
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         StorageReference destinationNode = mRoot.child(getUid().toString()).child(key).child("one");
+        StorageReference destinationNode2 = mRoot.child(getUid().toString()).child(key).child("two");
         Bitmap bitmap = resamplePic(this, mTempPhotoPath);
-
+        Bitmap bitmap2 = resamplePic(this, mTempPhotoPath2);
         writeToCloudStorage(destinationNode, bitmap);
-
-
+        writeToCloudStorage(destinationNode2, bitmap2);
         mDatabase.updateChildren(childUpdates);
     }
 
@@ -273,7 +263,11 @@ public class NewPostActivity extends BaseActivity {
 
                 Log.d("CHECKPOINTS", "temp file was created, proceeding...");
                 // Get the path of the temporary file
-                mTempPhotoPath = photoFile.getAbsolutePath();
+                if(mPictureOne) {
+                    mTempPhotoPath = photoFile.getAbsolutePath();
+                } else {
+                    mTempPhotoPath2 = photoFile.getAbsolutePath();
+                }
                 Log.d("CHECKPOINTS", "We have an absolute path: " + mTempPhotoPath);
                 // Get the content URI for the image file
                 Uri photoURI = FileProvider.getUriForFile(this,

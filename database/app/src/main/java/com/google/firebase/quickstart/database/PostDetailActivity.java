@@ -112,7 +112,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         });
 
 
-        StorageReference node = FirebaseStorage.getInstance().getReference().child("onlyPicture.jpeg");
+        StorageReference node = FirebaseStorage.getInstance().getReference().child(mUserKey).child(mPostKey).child("one");
 
 
         File localFile = null;

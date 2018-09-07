@@ -134,12 +134,14 @@ public class NewPostActivity extends BaseActivity {
         Log.d("CHECKPOINTS", "the callback was called in main for the completion of the camera activity");
 
         if(resultCode == RESULT_OK) {
-            Bitmap bitmap = resamplePic(this, mTempPhotoPath);
+            Bitmap bitmap;
             // Get the data from an ImageView as bytes
 
             if(mPictureOne) {
+                bitmap = resamplePic(this, mTempPhotoPath);
                 mNewPicture.setImageBitmap(bitmap);
             } else {
+                bitmap = resamplePic(this, mTempPhotoPath2);
                 mNewPicture2.setImageBitmap(bitmap);
             }
 

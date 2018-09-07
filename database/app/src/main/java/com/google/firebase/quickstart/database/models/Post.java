@@ -38,6 +38,7 @@ public class Post {
         result.put("addressTwo", addressTwo);
         result.put("starCount", starCount);
         result.put("stars", stars);
+        result.put(uid, true);
 
         return result;
     }

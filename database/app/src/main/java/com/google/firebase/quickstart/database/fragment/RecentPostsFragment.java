@@ -12,10 +12,10 @@ public class RecentPostsFragment extends PostListFragment {
         // [START recent_posts_query]
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
-        Query recentPostsQuery = databaseReference.child("posts")
-                .limitToFirst(100);
-        // [END recent_posts_query]
+        Query recentPostsQuery = databaseReference.child("posts").orderByChild(getUid()).equalTo(null);
 
+        // [END recent_posts_query]
+//        "mosaQnqPUpZfzbHWEUI7X31MUMu1"
         return recentPostsQuery;
     }
 }

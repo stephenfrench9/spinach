@@ -137,7 +137,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 String path = finalLocalFile.getPath();
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 mImageView.setImageBitmap(bitmap);
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

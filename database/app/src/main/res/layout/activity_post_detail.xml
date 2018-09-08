@@ -46,14 +46,14 @@
         android:layout_marginTop="10dp" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/post_text_layout"
         android:id="@+id/databasePicture"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/databasePicture"
         android:id="@+id/databasePicture2"/>
 

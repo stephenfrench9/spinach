@@ -44,6 +44,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
+
 public class NewPostActivity extends BaseActivity {
 
     private static final String TAG = "NewPostActivity";
@@ -108,7 +110,7 @@ public class NewPostActivity extends BaseActivity {
 
     private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
         byte[] bitmapT = baos.toByteArray();
 
         UploadTask uploadTask = destinationNode.putBytes(bitmapT);
@@ -138,8 +140,14 @@ public class NewPostActivity extends BaseActivity {
             // Get the data from an ImageView as bytes
 
             if(mPictureOne) {
-                bitmap = resamplePic(this, mTempPhotoPath);
-                mNewPicture.setImageBitmap(bitmap);
+//                bitmap = resamplePic(this, mTempPhotoPath);
+                try {
+                    Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
+                    mNewPicture.setImageBitmap(compressedImageBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 bitmap = resamplePic(this, mTempPhotoPath2);
                 mNewPicture2.setImageBitmap(bitmap);
@@ -230,8 +238,15 @@ public class NewPostActivity extends BaseActivity {
 
         StorageReference destinationNode = mRoot.child(getUid().toString()).child(key).child("one");
         StorageReference destinationNode2 = mRoot.child(getUid().toString()).child(key).child("two");
-        Bitmap bitmap = resamplePic(this, mTempPhotoPath);
-        Bitmap bitmap2 = resamplePic(this, mTempPhotoPath2);
+//        Bitmap bitmap = resamplePic(this, mTempPhotoPath);
+        Bitmap bitmap = null;
+        Bitmap bitmap2 = null;
+        try {
+            bitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
+            bitmap2 = new Compressor(this).compressToBitmap(new File(mTempPhotoPath2));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         writeToCloudStorage(destinationNode, bitmap);
         writeToCloudStorage(destinationNode2, bitmap2);
         mDatabase.updateChildren(childUpdates);

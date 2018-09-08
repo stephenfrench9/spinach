@@ -55,7 +55,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 // Local temp file has been created
                 Log.d("CHECKPOINT","onSucces callback: the file has been downloaded");
                 String path = finalLocalFile.getPath();
-                Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 2,2);
+                Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 100,100);
                 mPicture1.setImageBitmap(bitmap);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -78,7 +78,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 // Local temp file has been created
                 Log.d("CHECKPOINT","the file has been downloaded");
                 String path = finalLocalFile2.getPath();
-                Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 2, 2);
+                Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 100, 100);
                 mPicture2.setImageBitmap(bitmap);
             }
         }).addOnFailureListener(new OnFailureListener() {

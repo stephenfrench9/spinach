@@ -20,7 +20,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -40,7 +42,7 @@ public class  MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private FragmentPagerAdapter mPagerAdapter;
-    private ViewPager mViewPager;
+    private View mView;
     private Advise mAdvise;
 
     @Override
@@ -49,34 +51,12 @@ public class  MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mAdvise = new Advise();
         // Create the adapter that will return a fragment for each section
-        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-
-            private final Fragment[] mFragments = new Fragment[] {
-                    mAdvise,
-                    new MyPostsFragment(),
-            };
-            private final String[] mFragmentNames = new String[] {
-                    getString(R.string.heading_advise),
-                    getString(R.string.heading_my_posts),
-            };
-            @Override
-            public Fragment getItem(int position) {
-                return mFragments[position];
-            }
-            @Override
-            public int getCount() {
-                return mFragments.length;
-            }
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return mFragmentNames[position];
-            }
-        };
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mPagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        mView = findViewById(R.id.container);
+
+        FragmentManager bob = getSupportFragmentManager();
+        bob.beginTransaction().add(R.id.container, mAdvise).commit();
+
 
         // Button launches NewPostActivity
         findViewById(R.id.fab_new_post).setOnClickListener(new View.OnClickListener() {
@@ -85,9 +65,9 @@ public class  MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this, NewPostActivity.class));
             }
         });
-        TextView t = findViewById(R.id.intro);
+//        TextView t = findViewById(R.id.intro);
 //        t.setVisibility(View.INVISIBLE);
-        Button b = findViewById(R.id.advise_button);
+//        Button b = findViewById(R.id.advise_button);
 //        b.setVisibility(View.INVISIBLE);
 
     }
@@ -116,8 +96,8 @@ public class  MainActivity extends BaseActivity {
 
         Log.d("CHECKPOINTS", "MainActivity,fragmentMethodClicked: we got the textView");
 
-
         mAdvise.shipDeck();
+
         Log.d("CHECKPOINTS", "MainActivity,bClicked: finished");
     }
 

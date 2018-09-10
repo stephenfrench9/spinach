@@ -59,8 +59,8 @@ public class Advise extends Fragment {
         mNode = mStorage.child("s1feNUUH08grUcZTtZvRqzstOvm2").child("-LLrvsPm9y2Zkke60-lr").child("one");
         mNodePath = mNode.getPath();
 
-//        mButton.setVisibility(View.INVISIBLE);
-
+        mButton.setVisibility(View.INVISIBLE);
+        mTextView.setText("That");
         ValueEventListener listen = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,7 +81,7 @@ public class Advise extends Fragment {
             e.printStackTrace();
         }
 
-        mTextView.setVisibility(View.INVISIBLE);
+        mTextView.setText("Text modified from onCreateView");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.advise, container, false);
     }
@@ -99,7 +99,7 @@ public class Advise extends Fragment {
 //        mNode.getFile(mLocalFile);
 //        Bitmap bitmap = BitmapFactory.decodeFile(mLocalFile.getPath());
 //        mImageView.setImageBitmap(bitmap);
-        mButton.setVisibility(View.INVISIBLE);
+        mTextView.setText("modification from shipDeck in advise.java");
     }
 
 

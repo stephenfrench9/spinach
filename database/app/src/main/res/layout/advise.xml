@@ -19,9 +19,11 @@
         android:layout_below="@id/intro"/>
 
     <Button
+        android:id="@+id/advise_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BB"
-        android:onClick="com.google.advise."/>
+        android:layout_gravity="bottom"
+        android:onClick="bClicked"/>
 
 </FrameLayout>

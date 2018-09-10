@@ -22,9 +22,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.quickstart.database.fragment.Advise;
@@ -38,16 +41,18 @@ public class  MainActivity extends BaseActivity {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private Advise mAdvise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mAdvise = new Advise();
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
             private final Fragment[] mFragments = new Fragment[] {
-                    new Advise(),
+                    mAdvise,
                     new MyPostsFragment(),
             };
             private final String[] mFragmentNames = new String[] {
@@ -80,6 +85,11 @@ public class  MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this, NewPostActivity.class));
             }
         });
+        TextView t = findViewById(R.id.intro);
+//        t.setVisibility(View.INVISIBLE);
+        Button b = findViewById(R.id.advise_button);
+//        b.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -100,5 +110,17 @@ public class  MainActivity extends BaseActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+    public void bClicked(View v) {
+        Log.d("CHECKPOINTS", "MainActivity,fragmentMethodClicked: the button was clicked");
+
+        Log.d("CHECKPOINTS", "MainActivity,fragmentMethodClicked: we got the textView");
+
+
+        mAdvise.shipDeck();
+        Log.d("CHECKPOINTS", "MainActivity,bClicked: finished");
+    }
+
+
 
 }

@@ -18,12 +18,4 @@
         android:layout_height="100dp"
         android:layout_below="@id/intro"/>
 
-    <Button
-        android:id="@+id/advise_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BB"
-        android:layout_gravity="bottom"
-        android:onClick="bClicked"/>
-
 </FrameLayout>

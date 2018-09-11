@@ -52,7 +52,7 @@ public class Advise extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.advise, container, false);
         Log.d("ADVISE", "the logger is working");
-        mButton = rootView.findViewById(R.id.advise_button);
+
         mImageView = rootView.findViewById(R.id.advise_picture);
         mTextView = rootView.findViewById(R.id.intro);
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -81,9 +81,9 @@ public class Advise extends Fragment {
             e.printStackTrace();
         }
 
-        mTextView.setVisibility(View.INVISIBLE);
+        mTextView.setText("Now the textview is set from the fragment");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.advise, container, false);
+        return rootView;
     }
 
     @Override
@@ -92,17 +92,5 @@ public class Advise extends Fragment {
 
 
     }
-
-    public void shipDeck() {
-        Log.d("CHECKPOINTS", "shipDeck: the button was clicked");
-
-//        mNode.getFile(mLocalFile);
-//        Bitmap bitmap = BitmapFactory.decodeFile(mLocalFile.getPath());
-//        mImageView.setImageBitmap(bitmap);
-        mButton.setVisibility(View.INVISIBLE);
-    }
-
-
-
 }
 

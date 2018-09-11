@@ -85,11 +85,6 @@ public class  MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this, NewPostActivity.class));
             }
         });
-        TextView t = findViewById(R.id.intro);
-//        t.setVisibility(View.INVISIBLE);
-        Button b = findViewById(R.id.advise_button);
-//        b.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
@@ -110,17 +105,4 @@ public class  MainActivity extends BaseActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
-    public void bClicked(View v) {
-        Log.d("CHECKPOINTS", "MainActivity,fragmentMethodClicked: the button was clicked");
-
-        Log.d("CHECKPOINTS", "MainActivity,fragmentMethodClicked: we got the textView");
-
-
-        mAdvise.shipDeck();
-        Log.d("CHECKPOINTS", "MainActivity,bClicked: finished");
-    }
-
-
-
 }

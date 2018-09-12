@@ -34,7 +34,7 @@ public class Post {
         result.put("author", author);
         result.put("addressOne", addressOne);
         result.put("addressTwo", addressTwo);
-        result.put(uid, true);
+//        result.put(uid, true);
 
         return result;
     }

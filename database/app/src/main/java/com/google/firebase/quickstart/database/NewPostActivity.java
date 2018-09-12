@@ -160,13 +160,11 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void submitPost() {
-        // Title is required
         if (mNewPicture.getDrawable()==null) {
             Toast.makeText(this, "take two photos", Toast.LENGTH_LONG).show();
             return;
         }
 
-        // Body is required
         if (mNewPicture2.getDrawable()==null) {
             Toast.makeText(this, "take two photos", Toast.LENGTH_LONG).show();
             return;
@@ -228,6 +226,7 @@ public class NewPostActivity extends BaseActivity {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
+        Log.d("CHECKPOINT", "writeNewPost() " + key);
         address = getUid().toString() + "/" + key + "/one";
         address2 = getUid().toString() + "/" + key + "/two";
         Post post = new Post(userId, username, address, address2);
@@ -238,7 +237,7 @@ public class NewPostActivity extends BaseActivity {
 
         StorageReference destinationNode = mRoot.child(getUid().toString()).child(key).child("one");
         StorageReference destinationNode2 = mRoot.child(getUid().toString()).child(key).child("two");
-//        Bitmap bitmap = resamplePic(this, mTempPhotoPath);
+
         Bitmap bitmap = null;
         Bitmap bitmap2 = null;
         try {
@@ -250,6 +249,8 @@ public class NewPostActivity extends BaseActivity {
         writeToCloudStorage(destinationNode, bitmap);
         writeToCloudStorage(destinationNode2, bitmap2);
         mDatabase.updateChildren(childUpdates);
+        Log.d("CHECKPOINT", "writeNewPost() " + key);
+        mDatabase.child("posts").child(key).child(getUid().toString()).setValue(99);//child(key).child(getUid().toString()).setValue(true);
     }
 
     private void launchCamera() {

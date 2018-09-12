@@ -1,5 +1,7 @@
 package com.google.firebase.quickstart.database.fragment;
 
+import android.util.Log;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -13,6 +15,7 @@ public class RecentPostsFragment extends PostListFragment {
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
         Query recentPostsQuery = databaseReference.child("posts").orderByChild(getUid()).equalTo(null);
+
 
         // [END recent_posts_query]
 //        "mosaQnqPUpZfzbHWEUI7X31MUMu1"

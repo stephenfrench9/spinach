@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.quickstart.database.models.User;
 import com.google.firebase.quickstart.database.models.Comment;
 import com.google.firebase.quickstart.database.models.Post;
+import com.google.firebase.quickstart.database.utilities.Util;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -104,54 +105,8 @@ public class PostDetailActivity extends BaseActivity {
         StorageReference node = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("one");
         StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("two");
 
-
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("images", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d("CHECKPOINT","THE FILE WILL BE DOWNLOADED NEXT");
-        Log.d(TAG,"onCreate(): Gonna Download some pictures");
-        final File finalLocalFile = localFile;
-        node.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                Log.d("CHECKPOINT","the file has been downloaded");
-                String path = finalLocalFile.getPath();
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                mImageView.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-
-        File localFile2 = null;
-        try {
-            localFile2 = File.createTempFile("images", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final File finalLocalFile2 = localFile2;
-        node2.getFile(localFile2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                Log.d("CHECKPOINT","the file has been downloaded");
-                String path = finalLocalFile2.getPath();
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                mImageView2.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+        Util.downloadImage(node, mImageView);
+        Util.downloadImage(node2, mImageView2);
         Log.d(TAG,"onCreate(): finished");
     }
 

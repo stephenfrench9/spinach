@@ -112,8 +112,11 @@ public class Advise extends Fragment {
                 Log.d("CHECKPOINT", "onCreateView(), onDataChange(): " + addressS);
                 mTextView.setText(addressS);
                 String[] address = one.split("/");
-                StorageReference node = mStorage.child(address[0]).child(address[1]).child(address[2]);
-                downloadImage(node, mImageView);
+                
+                if(!one.equals("")) {
+                    StorageReference node = mStorage.child(address[0]).child(address[1]).child(address[2]);
+                    downloadImage(node, mImageView);
+                }
 
             }
             @Override

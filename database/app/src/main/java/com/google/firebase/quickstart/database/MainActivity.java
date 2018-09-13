@@ -22,18 +22,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.quickstart.database.fragment.Advise;
 import com.google.firebase.quickstart.database.fragment.MyPostsFragment;
-import com.google.firebase.quickstart.database.fragment.MyTopPostsFragment;
-import com.google.firebase.quickstart.database.fragment.RecentPostsFragment;
 
 public class  MainActivity extends BaseActivity {
 

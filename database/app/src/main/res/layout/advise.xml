@@ -5,18 +5,46 @@
     android:layout_height="match_parent"
     tools:context=".fragment.Advise">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/intro"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight=".5"
+            android:id="@+id/This"
+            android:text="This"
+            android:layout_margin="30dp"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight=".5"
+            android:id="@+id/That"
+            android:layout_margin="30dp"
+            android:text="That"/>
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/advise_picture"
+    <LinearLayout
+        android:id="@+id/bottom_box"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/intro"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_box"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="1.0">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:id="@+id/option1"/>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:id="@+id/option2"/>
+    </LinearLayout>
 
 </FrameLayout>

@@ -14,6 +14,8 @@ public class Post {
     public String author;
     public String addressOne;
     public String addressTwo;
+    public int one;
+    public int two;
 
     public Post() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -24,6 +26,8 @@ public class Post {
         this.author = author;
         this.addressOne = addressOne;
         this.addressTwo = addressTwo;
+        this.one = 0;
+        this.two = 0;
     }
 
     // [START post_to_map]
@@ -34,6 +38,8 @@ public class Post {
         result.put("author", author);
         result.put("addressOne", addressOne);
         result.put("addressTwo", addressTwo);
+        result.put("one",0);
+        result.put("two",0);
 //        result.put(uid, true);
 
         return result;

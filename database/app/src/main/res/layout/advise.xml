@@ -47,4 +47,13 @@
             android:id="@+id/option2"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/information"
+        android:text="No posts are available for review at this time"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp"
+        android:gravity="center_horizontal"/>
+
 </FrameLayout>

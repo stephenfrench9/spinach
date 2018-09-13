@@ -26,8 +26,8 @@ public class Post {
         this.author = author;
         this.addressOne = addressOne;
         this.addressTwo = addressTwo;
-        this.one = 0;
-        this.two = 0;
+        this.one = 1;
+        this.two = 1;
     }
 
     // [START post_to_map]

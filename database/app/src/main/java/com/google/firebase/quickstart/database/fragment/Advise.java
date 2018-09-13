@@ -78,35 +78,7 @@ public class Advise extends Fragment implements View.OnClickListener {
 
             }
         };
-        ValueEventListener m = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> van = dataSnapshot.getChildren();
-                String one = "";
-                String two = "";
-                for(DataSnapshot post : van) { //a for loop over one thing.
-                    mPostKey = post.getKey().toString();
-                    mDb.child("posts").child(mPostKey).child(getUid()).setValue(333);
-                    one = (String) post.child("addressOne").getValue();
-                    two = (String) post.child("addressTwo").getValue();
-
-                }
-                String[] address = one.split("/");
-                String[] address2 = two.split("/");
-                if(!one.equals("")) {
-                    StorageReference node = mStorage.child(address[0]).child(address[1]).child(address[2]);
-                    downloadImage(node, mThis);
-                }
-                if(!two.equals("")){
-                    StorageReference node2 = mStorage.child(address2[0]).child(address2[1]).child(address2[2]);
-                    downloadImage(node2, mThat);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
+        ValueEventListener m = new ReviewListener();
         node.addValueEventListener(l);
         Query aNode = mDb.child("posts").orderByChild(getUid()).equalTo(null).limitToFirst(1);
         aNode.addListenerForSingleValueEvent(m);
@@ -133,16 +105,12 @@ public class Advise extends Fragment implements View.OnClickListener {
         switch(view.getId()) {
             case R.id.This:
                 Log.d("HUMOR", "the this button has been pushed");
-                post.runTransaction(new Transaction.Handler() {
+                post.child("one").runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
                     public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                        Post p = mutableData.getValue(Post.class);
-                        String bess = p.author;
-                        Log.d("HUMOR", "mThisButton. doTransaction():");
-                        Log.d("HUMOR", bess);
-                        Log.d("HUMOR", "Here is the value for one: " + String.valueOf(p.one));
-                        p.one += 1;
+                        int p = mutableData.getValue(Integer.class);
+                        p += 1;
                         mutableData.setValue(p);
                         return Transaction.success(mutableData);
                     }
@@ -155,13 +123,13 @@ public class Advise extends Fragment implements View.OnClickListener {
                 break;
             case R.id.That:
                 Log.d("HUMOR", "The That button has been pushed");
-                post.runTransaction(new Transaction.Handler() {
+                post.child("two").runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
                     public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                        Post p = mutableData.getValue(Post.class);
+                        int p = mutableData.getValue(Integer.class);
                         Log.d("HUMOR", "mThatButton. doTransaction(): we are inserted inserted");
-                        p.two += 1;
+                        p += 1;
                         mutableData.setValue(p);
                         return Transaction.success(mutableData);
                     }
@@ -175,7 +143,37 @@ public class Advise extends Fragment implements View.OnClickListener {
         }
     }
 
+    public class ReviewListener implements ValueEventListener {
 
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Iterable<DataSnapshot> van = dataSnapshot.getChildren();
+            String one = "";
+            String two = "";
+            for(DataSnapshot post : van) { //a for loop over one thing.
+                mPostKey = post.getKey().toString();
+                mDb.child("posts").child(mPostKey).child(getUid()).setValue(333);
+                one = (String) post.child("addressOne").getValue();
+                two = (String) post.child("addressTwo").getValue();
+
+            }
+            String[] address = one.split("/");
+            String[] address2 = two.split("/");
+            if(!one.equals("")) {
+                StorageReference node = mStorage.child(address[0]).child(address[1]).child(address[2]);
+                downloadImage(node, mThis);
+            }
+            if(!two.equals("")){
+                StorageReference node2 = mStorage.child(address2[0]).child(address2[1]).child(address2[2]);
+                downloadImage(node2, mThat);
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    }
 
 }
 

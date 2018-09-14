@@ -93,18 +93,8 @@ public class PostDetailActivity extends BaseActivity {
         mAuthorView = findViewById(R.id.post_author);
         mImageView = findViewById(R.id.databasePicture);
         mImageView2 = findViewById(R.id.databasePicture2);
-        mLikeButton = findViewById(R.id.LIKE);
         mTextViewOne = findViewById(R.id.textViewOne);
         mTextViewTwo = findViewById(R.id.textViewTwo);
-
-
-        mLikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseDatabase.getInstance().getReference().child("user-likes").child(mUserKey).child(mPostKey).setValue(true);
-            }
-        });
-        Log.d(TAG,"onCreate(): About to access the database");
 
         StorageReference node = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("one");
         StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("two");

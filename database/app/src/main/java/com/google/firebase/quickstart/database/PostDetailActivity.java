@@ -61,6 +61,8 @@ public class PostDetailActivity extends BaseActivity {
     private ImageView mImageView;
     private ImageView mImageView2;
     private Button mLikeButton;
+    private TextView mTextViewOne;
+    private TextView mTextViewTwo;
 
 
 
@@ -92,6 +94,8 @@ public class PostDetailActivity extends BaseActivity {
         mImageView = findViewById(R.id.databasePicture);
         mImageView2 = findViewById(R.id.databasePicture2);
         mLikeButton = findViewById(R.id.LIKE);
+        mTextViewOne = findViewById(R.id.textViewOne);
+        mTextViewTwo = findViewById(R.id.textViewTwo);
 
 
         mLikeButton.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +111,31 @@ public class PostDetailActivity extends BaseActivity {
 
         Util.downloadImage(node, mImageView);
         Util.downloadImage(node2, mImageView2);
+        mPostReference.child("one").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer votesThis = dataSnapshot.getValue(Integer.class);
+                mTextViewOne.setText(votesThis.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        mPostReference.child("two").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer votesThat = dataSnapshot.getValue(Integer.class);
+                mTextViewTwo.setText(votesThat.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Log.d(TAG,"onCreate(): finished");
     }
 

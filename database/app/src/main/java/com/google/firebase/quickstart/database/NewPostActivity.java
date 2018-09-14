@@ -53,11 +53,7 @@ public class NewPostActivity extends BaseActivity {
     private static final String FILE_PROVIDER_AUTHORITY = "com.example.android.fileproviderThree";
     private int REQUEST_IMAGE_CAPTURE = 1;
 
-    // [START declare_database_ref]
     private DatabaseReference mDatabase;
-    // [END declare_database_ref]
-
-
     private FloatingActionButton mSubmitButton;
     private Button mTakePicture;
     private Button mTakePicture2;
@@ -66,7 +62,6 @@ public class NewPostActivity extends BaseActivity {
     private String mTempPhotoPath;
     private String mTempPhotoPath2;
     private boolean mPictureOne;
-
     private StorageReference mRoot;
 
     @Override
@@ -107,27 +102,6 @@ public class NewPostActivity extends BaseActivity {
 
         mRoot = FirebaseStorage.getInstance().getReference();
     }
-
-    private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-        byte[] bitmapT = baos.toByteArray();
-
-        UploadTask uploadTask = destinationNode.putBytes(bitmapT);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-            }
-        });
-
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -212,16 +186,6 @@ public class NewPostActivity extends BaseActivity {
         // [END single_value_read]
     }
 
-    private void setEditingEnabled(boolean enabled) {
-
-        if (enabled) {
-            mSubmitButton.setVisibility(View.VISIBLE);
-        } else {
-            mSubmitButton.setVisibility(View.GONE);
-        }
-    }
-
-    // [START write_fan_out]
     private void writeNewPost(String userId, String username, String address, String address2) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
@@ -252,6 +216,27 @@ public class NewPostActivity extends BaseActivity {
         Log.d("CHECKPOINT", "writeNewPost() " + key);
         mDatabase.child("posts").child(key).child(getUid().toString()).setValue(99);//child(key).child(getUid().toString()).setValue(true);
     }
+
+    private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+        byte[] bitmapT = baos.toByteArray();
+
+        UploadTask uploadTask = destinationNode.putBytes(bitmapT);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
+
+    };
 
     private void launchCamera() {
         Log.d("CHECKPOINTS", "helper method called: launch the camera");
@@ -301,6 +286,14 @@ public class NewPostActivity extends BaseActivity {
         }
     }
 
+    private void setEditingEnabled(boolean enabled) {
+        if (enabled) {
+            mSubmitButton.setVisibility(View.VISIBLE);
+        } else {
+            mSubmitButton.setVisibility(View.GONE);
+        }
+    }
+
     static File createTempImageFile(Context context) throws IOException {
         Log.d("CHECKPOINTS", "helper method called: createTempImageFile");
 
@@ -315,7 +308,6 @@ public class NewPostActivity extends BaseActivity {
                 storageDir      /* directory */
         );
     }
-
 
     static Bitmap resamplePic(Context context, String imagePath) {
 
@@ -343,8 +335,4 @@ public class NewPostActivity extends BaseActivity {
 
         return BitmapFactory.decodeFile(imagePath);
     }
-
-
-
-    // [END write_fan_out]
 }

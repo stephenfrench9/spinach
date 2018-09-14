@@ -47,8 +47,6 @@ public class Advise extends Fragment implements View.OnClickListener {
     private StorageReference mStorage;
     private ImageView mThat;
     private ImageView mThis;
-    private Button mThatButton;
-    private Button mThisButton;
     private TextView mInformation;
 
 
@@ -88,11 +86,10 @@ public class Advise extends Fragment implements View.OnClickListener {
         mThis = rootView.findViewById(R.id.option1);
         mThat = rootView.findViewById(R.id.option2);
         mStorage = FirebaseStorage.getInstance().getReference();
-        mThisButton = rootView.findViewById(R.id.This);
-        mThatButton = rootView.findViewById(R.id.That);
         mInformation = rootView.findViewById(R.id.information);
-        mThisButton.setOnClickListener(this);
-        mThatButton.setOnClickListener(this);
+        mThis.setOnClickListener(this);
+        mThat.setOnClickListener(this);
+
 
         return rootView;
     }
@@ -111,7 +108,7 @@ public class Advise extends Fragment implements View.OnClickListener {
         DatabaseReference post = mDb.child("posts").child(mPostKey);
         mPostKey = "invalid";
         switch(view.getId()) {
-            case R.id.This:
+            case R.id.option1:
                 Log.d("HUMOR", "Case branch THIS:");
                 post.child("one").runTransaction(new Transaction.Handler() {
                     @NonNull
@@ -138,7 +135,7 @@ public class Advise extends Fragment implements View.OnClickListener {
                     }
                 });
                 break;
-            case R.id.That:
+            case R.id.option2:
                 Log.d("HUMOR", "Case branch THAT:");
                 post.child("two").runTransaction(new Transaction.Handler() {
                     @NonNull

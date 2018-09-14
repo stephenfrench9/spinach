@@ -34,6 +34,9 @@ public class PostDetailActivity extends BaseActivity {
     private TextView mTextView1;
     private TextView mTextView2;
 
+    private ValueEventListener mOne;
+    private ValueEventListener mTwo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +70,23 @@ public class PostDetailActivity extends BaseActivity {
         Util.downloadImage(node2, mImageView2);
 
         //load the votes
-        mPostReference.child("one").addValueEventListener(new VoteListener(mTextView1));
-        mPostReference.child("two").addValueEventListener(new VoteListener(mTextView2));
+        mOne = new VoteListener(mTextView1);
+        mTwo = new VoteListener(mTextView2);
+
+        mPostReference.child("one").addListenerForSingleValueEvent(mOne);
+        mPostReference.child("two").addValueEventListener(mTwo);
+        mPostReference.child("two").removeEventListener(mTwo);
+//        mPostReference.child("one").setValue(11);
+        mPostReference.child("two").setValue(11);
+
+//        mPostReference.child("one").setValue(21);
+        mPostReference.child("two").setValue(21);
+
+//        mPostReference.child("one").setValue(31);
+        mPostReference.child("two").setValue(31);
+
+
+        mPostReference.child("one").removeEventListener(mOne);
 
         Log.d(TAG,"onCreate(): finished");
     }
@@ -96,6 +114,12 @@ public class PostDetailActivity extends BaseActivity {
         Log.d(TAG,"onStart(): Post Detail Activity is finished");
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
     class VoteListener implements ValueEventListener {
         private TextView tvi;
         VoteListener(TextView t) {
@@ -103,10 +127,11 @@ public class PostDetailActivity extends BaseActivity {
         }
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Log.d("BASIL", "onDataChange(): Start");
+//            Log.d("BASIL", "onDataChange(): Start");
             Integer votes = dataSnapshot.getValue(Integer.class);
             tvi.setText(votes.toString());
-            Log.d("BASIL", "onDataChange(): End");
+            Log.d("BASIL", String.valueOf(tvi.getId()) + ": " + votes.toString());
+//            Log.d("BASIL", "onDataChange(): End");
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {

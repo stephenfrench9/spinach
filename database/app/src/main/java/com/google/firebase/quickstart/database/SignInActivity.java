@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.quickstart.database.models.User;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
@@ -39,6 +40,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         ActionBar greg = getSupportActionBar();
         greg.hide();
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();

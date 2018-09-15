@@ -1,5 +1,6 @@
 package com.google.firebase.quickstart.database.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -122,6 +123,7 @@ public abstract class PostListFragment extends Fragment {
                 // Determine if the current user has liked this post and set UI accordingly
 
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
+
                 viewHolder.bindToPost(model, postKey);
 
             }

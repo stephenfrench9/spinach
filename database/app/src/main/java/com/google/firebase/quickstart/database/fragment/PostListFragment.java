@@ -22,10 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.quickstart.database.GlideApp;
 import com.google.firebase.quickstart.database.PostDetailActivity;
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.viewholder.PostViewHolder;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public abstract class PostListFragment extends Fragment {
@@ -41,6 +44,8 @@ public abstract class PostListFragment extends Fragment {
     private LinearLayoutManager mManager;
     private String mPostOwner;
 
+    private Fragment mFragment;
+
     public PostListFragment() {}
 
     @Override
@@ -52,7 +57,7 @@ public abstract class PostListFragment extends Fragment {
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
-
+        mFragment = this;
         mRecycler = rootView.findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
 
@@ -88,9 +93,16 @@ public abstract class PostListFragment extends Fragment {
             protected void onBindViewHolder(PostViewHolder viewHolder, int position, final Post model) {
                 final DatabaseReference postRef = getRef(position);
                 Log.d("INCISION", "Filling a box in the recycler view with a Post");
-
-                // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
+                ImageView iv = viewHolder.mPicture1;
+                StorageReference node = FirebaseStorage.getInstance().getReference().child(model.uid).child(postKey).child("one");
+                StorageReference node2 = FirebaseStorage.getInstance().getReference().child(model.uid).child(postKey).child("two");
+
+                GlideApp.with(mFragment).load(node).sizeMultiplier(1).into(viewHolder.mPicture1);
+                GlideApp.with(mFragment).load(node2).sizeMultiplier(1).into(viewHolder.mPicture2);
+                // Set click listener for the whole post view
+
+                String uid = getUid();
                 Log.d("INCISION", "onBindViewHolder: postkey has value " + postKey);
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -124,7 +136,7 @@ public abstract class PostListFragment extends Fragment {
 
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
 
-                viewHolder.bindToPost(model, postKey);
+//                viewHolder.bindToPost(model, postKey);
 
             }
         };

@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.InputStream;
 
 
+
 public class PostDetailActivity extends BaseActivity {
 
     private static final String TAG = "PostDetailActivity";
@@ -70,7 +71,6 @@ public class PostDetailActivity extends BaseActivity {
         StorageReference node2 = FirebaseStorage.getInstance().getReference().child(mPostOwner).child(mPostKey).child("two");
         GlideApp.with(this).load(node).into(mImageView1);
         GlideApp.with(this).load(node2).into(mImageView2);
-        Util.downloadImage(node2, mImageView2);
 
         //load the votes
         mOne = new VoteListener(mTextView1,"One");
@@ -78,8 +78,6 @@ public class PostDetailActivity extends BaseActivity {
 
         mPostReference.child("one").addListenerForSingleValueEvent(mOne);
         mPostReference.child("two").addListenerForSingleValueEvent(mTwo);
-
-
         Log.d(TAG,"onCreate(): finished");
     }
 

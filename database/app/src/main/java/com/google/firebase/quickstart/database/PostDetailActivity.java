@@ -31,7 +31,6 @@ public class PostDetailActivity extends BaseActivity {
     private String mPostKey;
     private String mUserKey;
     private String mPostOwner;
-    private TextView mAuthorView;
     private ImageView mImageView1;
     private ImageView mImageView2;
     private TextView mTextView1;
@@ -60,7 +59,6 @@ public class PostDetailActivity extends BaseActivity {
                 .child("posts").child(mPostKey);
 
         // Initialize Views
-        mAuthorView = findViewById(R.id.post_author);
         mImageView1 = findViewById(R.id.databasePicture);
         mImageView2 = findViewById(R.id.databasePicture2);
         mTextView1 = findViewById(R.id.textViewOne);
@@ -91,7 +89,6 @@ public class PostDetailActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG,",onCreate(),onDataChanged(): start onDataChanged()");
                 String author = dataSnapshot.getValue(String.class);
-                mAuthorView.setText(author);
             }
 
             @Override

@@ -71,8 +71,8 @@ public class PostDetailActivity extends BaseActivity {
         GlideApp.with(this).load(node2).into(mImageView2);
 
         //load the votes
-        mOne = new VoteListener(mTextView1,"One");
-        mTwo = new VoteListener(mTextView2, "Two");
+        mOne = new VoteListener(mTextView1,"This: ");
+        mTwo = new VoteListener(mTextView2, "That: ");
 
         mPostReference.child("one").addListenerForSingleValueEvent(mOne);
         mPostReference.child("two").addListenerForSingleValueEvent(mTwo);
@@ -84,21 +84,21 @@ public class PostDetailActivity extends BaseActivity {
         super.onStart();
         Log.d(TAG,"onStart(): gonna read the author from the database");
         //get the author from the post
-        mPostListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG,",onCreate(),onDataChanged(): start onDataChanged()");
-                String author = dataSnapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        Log.d(TAG,"onStart(): About to add the value event listener to the post online");
-        mPostReference.child("author").addListenerForSingleValueEvent(mPostListener);
-        Log.d(TAG,"onStart(): Post Detail Activity is finished");
+//        mPostListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.d(TAG,",onCreate(),onDataChanged(): start onDataChanged()");
+//                String author = dataSnapshot.getValue(String.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//        Log.d(TAG,"onStart(): About to add the value event listener to the post online");
+//        mPostReference.child("author").addListenerForSingleValueEvent(mPostListener);
+//        Log.d(TAG,"onStart(): Post Detail Activity is finished");
     }
 
     @Override
@@ -119,7 +119,7 @@ public class PostDetailActivity extends BaseActivity {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //            Log.d("BASIL", "onDataChange(): Start");
             Integer votes = dataSnapshot.getValue(Integer.class);
-            tvi.setText(votes.toString());
+            tvi.setText(id + votes.toString());
             Log.d("BASIL", id + ": " + votes.toString());
 //            Log.d("BASIL", "onDataChange(): End");
         }

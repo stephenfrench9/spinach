@@ -55,7 +55,7 @@ public class PostDetailActivity extends BaseActivity {
         }
 
         // Initialize Database
-        mPostReference = FirebaseDatabase.getInstance().getReference()
+        mPostReference = Util.getDatabase().getReference()
                 .child("posts").child(mPostKey);
 
         // Initialize Views

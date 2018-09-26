@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.quickstart.database.models.User;
+import com.google.firebase.quickstart.database.utilities.Util;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
@@ -38,12 +39,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        ActionBar greg = getSupportActionBar();
-        greg.hide();
+//        ActionBar greg = getSupportActionBar();
+//        greg.hide();
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = Util.getDatabase().getReference();
         mAuth = FirebaseAuth.getInstance();
 
         // Views
@@ -122,14 +121,27 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void onAuthSuccess(FirebaseUser user) {
+        user.reload();
         String username = usernameFromEmail(user.getEmail());
 
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
 
-        // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-        finish();
+        boolean verified = user.isEmailVerified();
+//        boolean verified = true;
+        if(verified) {
+//            Toast.makeText(this, "you are verified", Toast.LENGTH_LONG).show();
+            // Go to MainActivity
+            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+            finish();
+        } else {
+            Toast.makeText(this, "please check your email and verify.", Toast.LENGTH_LONG).show();
+            user.sendEmailVerification();
+            //we resend everytime the app tries to launch the new actiivty but they are verified. So if they
+            //clicked signup and then signin, it would send it twice and ask them to verify both times. I could set it up to send just once
+            //for sure, I would have to get the part of the code that runs when a user signsup for the system successfully.
+        }
+
     }
 
     private String usernameFromEmail(String email) {

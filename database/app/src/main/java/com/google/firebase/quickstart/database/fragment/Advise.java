@@ -57,7 +57,7 @@ public class Advise extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.advise, container, false);
-        mDb = FirebaseDatabase.getInstance().getReference();
+        mDb = Util.getDatabase().getReference();
         DatabaseReference node = mDb.child("user-posts");
         ValueEventListener l = new ValueEventListener() {
             @Override

@@ -26,6 +26,7 @@ import com.google.firebase.quickstart.database.GlideApp;
 import com.google.firebase.quickstart.database.PostDetailActivity;
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.models.Post;
+import com.google.firebase.quickstart.database.utilities.Util;
 import com.google.firebase.quickstart.database.viewholder.PostViewHolder;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -55,7 +56,7 @@ public abstract class PostListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
 
         // [START create_database_reference]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = Util.getDatabase().getReference();
         // [END create_database_reference]
         mFragment = this;
         mRecycler = rootView.findViewById(R.id.messages_list);
@@ -109,7 +110,7 @@ public abstract class PostListFragment extends Fragment {
                     public void onClick(View v) {
                         // Launch PostDetailActivity
                         Log.d("INCISION", "onClick Callback: Begin");
-                        FirebaseDatabase.getInstance().getReference().child("posts").child(postKey).child("uid").addValueEventListener(new ValueEventListener() {
+                        Util.getDatabase().getReference().child("posts").child(postKey).child("uid").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 Log.d("INCISION", "onDataChange Callback: begin");

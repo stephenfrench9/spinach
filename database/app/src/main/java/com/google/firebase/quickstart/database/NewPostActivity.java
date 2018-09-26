@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.models.User;
+import com.google.firebase.quickstart.database.utilities.Util;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -70,7 +71,7 @@ public class NewPostActivity extends BaseActivity {
         setContentView(R.layout.activity_new_post);
 
         // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = Util.getDatabase().getReference();
         // [END initialize_database_ref]
 
         mSubmitButton = findViewById(R.id.fab_submit_post);

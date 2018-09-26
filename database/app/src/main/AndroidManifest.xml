@@ -19,6 +19,16 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".FirebaseUIActivity"
+            android:label="@string/label_firebase_ui">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name=".MainActivity"
@@ -27,11 +37,6 @@
         <activity android:name=".NewPostActivity" />
 
         <activity android:name=".SignInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".PostDetailActivity"></activity>

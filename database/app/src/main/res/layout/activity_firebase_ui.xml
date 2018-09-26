@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:padding="50dp"
+            android:text="ThisOrThat"
+            android:contentDescription="desc_firebase_lockup"
+            android:textSize="40sp"
+            android:textColor="@color/colorAccent"/>
+
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="firebaseui_title_text"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:text="signed_out"
+            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/detail"
+            tools:text="Firebase User ID: 123456789abc"
+            android:layout_height="40dp"
+            android:layout_width="150dp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/sign_in_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/sign_in"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/sign_out_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="n_out"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

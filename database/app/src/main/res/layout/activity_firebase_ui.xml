@@ -35,12 +35,6 @@
             android:text="firebaseui_title_text"
             android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/status"
-            android:text="signed_out"
-            android:layout_height="40dp"
-            android:layout_width="200dp"
-            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/detail"
@@ -72,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="n_out"
+            android:text="Sign Out"
             android:visibility="gone" />
 
     </RelativeLayout>

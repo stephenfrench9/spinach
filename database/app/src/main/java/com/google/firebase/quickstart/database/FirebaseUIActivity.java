@@ -28,7 +28,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
     private FirebaseAuth mAuth;
 
-    private TextView mStatusView;
+
     private TextView mDetailView;
 
     @Override
@@ -38,7 +38,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
         mAuth = FirebaseAuth.getInstance();
 
-        mStatusView = findViewById(R.id.status);
+
         mDetailView = findViewById(R.id.detail);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -104,14 +104,14 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         Log.d("BASIL", "updateUI(): start");
         if (user != null) {
             // Signed in
-            mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
+
             mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else {
             // Signed out
-            mStatusView.setText(R.string.signed_out);
+
             mDetailView.setText(null);
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);

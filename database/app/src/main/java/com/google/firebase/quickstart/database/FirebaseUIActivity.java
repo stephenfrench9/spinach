@@ -55,7 +55,13 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     protected void onStart() {
         Log.d("BASIL", "onStart(): start");
         super.onStart();
-        updateUI(mAuth.getCurrentUser());
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        updateUI(user);
+        if (user != null && user.isEmailVerified()) {
+            startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
+            finish();
+        }
         Log.d("BASIL", "onStart(): end");
     }
 
@@ -64,7 +70,6 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("BASIL", "onActivityResult(): start");
 
-
         if (requestCode == RC_SIGN_IN) {
             Log.d("BASIL", "onActivityResult(): middle");
             if (resultCode == RESULT_OK) {
@@ -72,9 +77,13 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                 FirebaseUser user = mAuth.getCurrentUser();
                 boolean verified = user.isEmailVerified();
                 Log.d("BASIL", "onActivityResult(): " + String.valueOf(verified));
+                if(verified) {
+                    startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    user.sendEmailVerification();
+                }
                 updateUI(user);
-                startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
-                finish();
             } else {
                 // Sign in failed
                 Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
@@ -102,16 +111,21 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
     private void updateUI(FirebaseUser user) {
         Log.d("BASIL", "updateUI(): start");
+
         if (user != null) {
             // Signed in
-
-            mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
-
+            boolean verified = user.isEmailVerified();
+            if(verified) {
+                findViewById(R.id.verify_message).setVisibility(View.INVISIBLE);
+            } else {
+                findViewById(R.id.verify_message).setVisibility(View.VISIBLE);
+            }
+            mDetailView.setText(getString(R.string.id_fmt, user.getEmail()));
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else {
             // Signed out
-
+            findViewById(R.id.verify_message).setVisibility(View.INVISIBLE);
             mDetailView.setText(null);
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);

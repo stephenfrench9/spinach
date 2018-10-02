@@ -26,21 +26,19 @@
             android:textSize="40sp"
             android:textColor="@color/colorAccent"/>
 
-
-        <TextView
-            android:id="@+id/title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="firebaseui_title_text"
-            android:visibility="gone"/>
-
-
         <TextView
             android:id="@+id/detail"
             tools:text="Firebase User ID: 123456789abc"
-            android:layout_height="40dp"
-            android:layout_width="150dp" />
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:id="@+id/verify_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="You have successfully signed in, but you need to verify your email. Please sign-out, go to your email account, and respond to the email we just sent you."/>
 
     </LinearLayout>
 

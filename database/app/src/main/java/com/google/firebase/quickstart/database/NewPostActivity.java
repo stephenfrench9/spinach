@@ -124,8 +124,16 @@ public class NewPostActivity extends BaseActivity {
                 }
 
             } else {
-                bitmap = resamplePic(this, mTempPhotoPath2);
-                mNewPicture2.setImageBitmap(bitmap);
+                try {
+                    Bitmap compressedImageBitmap2 = new Compressor(this).compressToBitmap(new File(mTempPhotoPath2));
+                    mNewPicture2.setImageBitmap(compressedImageBitmap2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+//
+//                bitmap = resamplePic(this, mTempPhotoPath2);
+//                mNewPicture2.setImageBitmap(bitmap);
             }
 
             Toast.makeText(this, "the camera successfully took a foto", Toast.LENGTH_LONG).show();

@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:context="com.google.firebase.quickstart.database.NewPostActivity">
+
     <LinearLayout
+        android:id="@+id/top_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
+        android:orientation="horizontal"
+        android:weightSum="1">
         <TextView
+            android:layout_weight=".5"
+            android:gravity="center"
             android:textStyle="bold"
             android:textSize="26dp"
             android:textColor="@color/colorAccent"
-            android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:id="@+id/textViewOne"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This: 0"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:id="@+id/databasePicture"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:id="@+id/databasePicture2"/>
-
         <TextView
+            android:gravity="center"
+            android:layout_weight=".5"
             android:textStyle="bold"
             android:textSize="26dp"
             android:textColor="@color/colorPrimary"
-            android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/textViewTwo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="That: 0"/>
     </LinearLayout>
-</ScrollView>
 
+    <LinearLayout
+        android:layout_below="@id/top_box"
+        android:id="@+id/bottom_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="1.0">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:id="@+id/databasePicture"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:id="@+id/databasePicture2"/>
+    </LinearLayout>
+
+</RelativeLayout>
 
 
 

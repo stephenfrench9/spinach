@@ -24,7 +24,7 @@
 
         <activity
             android:name=".FirebaseUIActivity"
-            android:label="@string/label_firebase_ui">
+            android:label="ThisOrThat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

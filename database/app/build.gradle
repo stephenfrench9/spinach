@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        applicationId "com.google.firebase.quickstart.database"
+        applicationId "french.stephen.spore.hope.today.perch"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1

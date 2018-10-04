@@ -43,7 +43,7 @@ public class PostDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
-        Log.d(TAG,"onCreate(): Post Detail Activity is created");
+
 
         // Get post key from intent
         mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
@@ -76,18 +76,18 @@ public class PostDetailActivity extends BaseActivity {
 
         mPostReference.child("one").addListenerForSingleValueEvent(mOne);
         mPostReference.child("two").addListenerForSingleValueEvent(mTwo);
-        Log.d(TAG,"onCreate(): finished");
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart(): gonna read the author from the database");
+
         //get the author from the post
 //        mPostListener = new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Log.d(TAG,",onCreate(),onDataChanged(): start onDataChanged()");
+
 //                String author = dataSnapshot.getValue(String.class);
 //            }
 //
@@ -96,9 +96,9 @@ public class PostDetailActivity extends BaseActivity {
 //
 //            }
 //        };
-//        Log.d(TAG,"onStart(): About to add the value event listener to the post online");
+
 //        mPostReference.child("author").addListenerForSingleValueEvent(mPostListener);
-//        Log.d(TAG,"onStart(): Post Detail Activity is finished");
+
     }
 
     @Override
@@ -117,11 +117,11 @@ public class PostDetailActivity extends BaseActivity {
         }
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//            Log.d("BASIL", "onDataChange(): Start");
+
             Integer votes = dataSnapshot.getValue(Integer.class);
             tvi.setText(id + votes.toString());
-            Log.d("BASIL", id + ": " + votes.toString());
-//            Log.d("BASIL", "onDataChange(): End");
+
+
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {

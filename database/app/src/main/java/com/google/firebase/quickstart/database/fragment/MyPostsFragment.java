@@ -17,8 +17,6 @@ public class MyPostsFragment extends PostListFragment {
 
 //        Query q =  databaseReference.child("posts")
 //                .orderByChild(getUid());
-        Log.d("RPF", "we have inserted to directly below the query.");
-        Log.d("RPF", "The user is: " + getUid());
         return q;
     }
 }

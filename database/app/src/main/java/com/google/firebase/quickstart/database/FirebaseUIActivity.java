@@ -47,13 +47,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         ActionBar greg = getSupportActionBar();
         greg.hide();
 
-        Log.d("BASIL", "onCreate(): end");
 
     }
 
     @Override
     protected void onStart() {
-        Log.d("BASIL", "onStart(): start");
         super.onStart();
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -62,21 +60,17 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
             startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
             finish();
         }
-        Log.d("BASIL", "onStart(): end");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("BASIL", "onActivityResult(): start");
 
         if (requestCode == RC_SIGN_IN) {
-            Log.d("BASIL", "onActivityResult(): middle");
             if (resultCode == RESULT_OK) {
                 // Sign in succeeded
                 FirebaseUser user = mAuth.getCurrentUser();
                 boolean verified = user.isEmailVerified();
-                Log.d("BASIL", "onActivityResult(): " + String.valueOf(verified));
                 if(verified) {
                     startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
                     finish();
@@ -90,13 +84,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                 updateUI(null);
             }
         }
-        Log.d("BASIL", "onActivityResult(): end");
     }
 
     private void startSignIn() {
         // Build FirebaseUI sign in intent. For documentation on this operation and all
         // possible customization see: https://github.com/firebase/firebaseui-android
-        Log.d("BASIL", "StartSignIn(): start");
         Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
                 .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                 .setAvailableProviders(Collections.singletonList(
@@ -104,13 +96,10 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                 .setLogo(R.mipmap.ic_launcher)
                 .build();
 
-        Log.d("BASIL", "StartSignIn(): middle");
         startActivityForResult(intent, RC_SIGN_IN);
-        Log.d("BASIL", "StartSignIn(): end");
     }
 
     private void updateUI(FirebaseUser user) {
-        Log.d("BASIL", "updateUI(): start");
 
         if (user != null) {
             // Signed in
@@ -131,14 +120,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
-        Log.d("BASIL", "updateUI(): end");
     }
 
     private void signOut() {
-        Log.d("BASIL", "singOut(): start");
         AuthUI.getInstance().signOut(this);
         updateUI(null);
-        Log.d("BASIL", "singOut(): end");
     }
 
     @Override

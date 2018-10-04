@@ -67,11 +67,7 @@ public class Advise extends Fragment implements View.OnClickListener {
                 for(DataSnapshot user : van) {
                     if(getUid().equals(user.getKey())) {
                         person = person + ", " + user.getKey();
-                        Log.d("CHECKPOINT", user.getKey());
                     }
-                    Log.d("CHECKPOINT", user.getKey());
-                    Log.d("CHECKPOINT", getUid());
-                    Log.d("CHECKPOINT", String.valueOf(getUid().equals(user.getKey())));
                 }
             }
             @Override
@@ -101,7 +97,6 @@ public class Advise extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Log.d("HUMOR", "onClick(): start");
         if(mPostKey.equals("invalid")) {
             return;
         }
@@ -109,63 +104,48 @@ public class Advise extends Fragment implements View.OnClickListener {
         mPostKey = "invalid";
         switch(view.getId()) {
             case R.id.option1:
-                Log.d("HUMOR", "Case branch THIS:");
                 post.child("one").runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
                     public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                        Log.d("HUMOR", "doTransaction(), THIS: START");
                         Integer p = mutableData.getValue(Integer.class);
-                        Log.d("HUMOR", "doTransaction(), THIS: p was read, check for nullity");
                         if(p==null) {
-                            Log.d("HUMOR", "doTransaction(), THIS: p was found to be null");
                             mutableData.setValue(1);
                         } else {
-                            Log.d("HUMOR", "doTransaction(), THIS: p was found to be not null");
                             mutableData.setValue(p + 1);
                         }
 
-                        Log.d("HUMOR", "doTransaction(), THIS: FINISH " + p);
                         return Transaction.success(mutableData);
                     }
 
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
-                        Log.d("HUMOR", "onComplete(): transaction 2 for this is finished. Error: " + databaseError);
                     }
                 });
                 break;
             case R.id.option2:
-                Log.d("HUMOR", "Case branch THAT:");
                 post.child("two").runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
                     public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                        Log.d("HUMOR", "doTransaction(), THAT: Start");
                         Integer p = mutableData.getValue(Integer.class);
-                        Log.d("HUMOR", "doTransaction(), THIS: p was read, check for nullity");
                         if(p==null) {
-                            Log.d("HUMOR", "doTransaction(), THIS: p was found to be null");
                             mutableData.setValue(1);
                         } else {
-                            Log.d("HUMOR", "doTransaction(), THIS: p was found to be not null");
                             mutableData.setValue(p + 1);
                         }
 
-                        Log.d("HUMOR", "doTransaction(), THIS: FINISH " + p);
                         return Transaction.success(mutableData);
                     }
 
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
-                        Log.d("CHECKPOINT", "transaction 2 for this is finished. Error: " + databaseError);
                     }
                 });
                 break;
         }
         Query aNode = mDb.child("posts").orderByChild(getUid()).equalTo(null).limitToFirst(1);
         aNode.addListenerForSingleValueEvent(new Reviewer("OnClick(): refreshImage"));
-        Log.d("HUMOR", "onClick(): End");
     }
 
     public class Reviewer implements ValueEventListener {
@@ -177,11 +157,9 @@ public class Advise extends Fragment implements View.OnClickListener {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Log.d("HUMOR", "onDataChange(), " + reviewerID + ": Start");
             Iterable<DataSnapshot> van = dataSnapshot.getChildren();
             if(!dataSnapshot.exists()) {
                 mPostKey = "invalid";
-                Log.d("HUMOR", "onDataChange(): THE QUERY WAS EMPTY");
             }
             String one = "";
             String two = "";
@@ -213,7 +191,6 @@ public class Advise extends Fragment implements View.OnClickListener {
                 mThat.setVisibility(View.INVISIBLE);
                 mPostKey = "invalid";
             }
-            Log.d("HUMOR", "onDataChange(), " + reviewerID + ": End");
         }
 
         @Override

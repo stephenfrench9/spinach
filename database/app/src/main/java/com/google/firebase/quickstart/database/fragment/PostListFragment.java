@@ -93,7 +93,6 @@ public abstract class PostListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(PostViewHolder viewHolder, int position, final Post model) {
                 final DatabaseReference postRef = getRef(position);
-                Log.d("INCISION", "Filling a box in the recycler view with a Post");
                 final String postKey = postRef.getKey();
                 ImageView iv = viewHolder.mPicture1;
                 StorageReference node = FirebaseStorage.getInstance().getReference().child(model.uid).child(postKey).child("one");
@@ -104,19 +103,14 @@ public abstract class PostListFragment extends Fragment {
                 // Set click listener for the whole post view
 
                 String uid = getUid();
-                Log.d("INCISION", "onBindViewHolder: postkey has value " + postKey);
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
-                        Log.d("INCISION", "onClick Callback: Begin");
                         Util.getDatabase().getReference().child("posts").child(postKey).child("uid").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Log.d("INCISION", "onDataChange Callback: begin");
-                                Log.d("INCISION", "onDataChange Callback: outer class memeber variable: " + mPostOwner);
                                 String uid = dataSnapshot.getValue().toString();
-                                Log.d("INCISION", "onDataChange Callback: " + uid);
                                 Intent intent = new Intent(getActivity(), PostDetailActivity.class);
                                 intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
                                 intent.putExtra(PostDetailActivity.EXTRA_POST_OWNER, uid);
@@ -125,10 +119,8 @@ public abstract class PostListFragment extends Fragment {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("INCISION", "it was cancelled");
                             }
                         });
-                        Log.d("INCISION", "OnClick Callback: Value event listener has been added");
                         mPostOwner = "I want it thataway";
                     }
                 });

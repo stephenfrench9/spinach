@@ -49,13 +49,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("CHECKPOINT","THE FILE WILL BE DOWNLOADED NEXT");
         final File finalLocalFile = localFile;
         node.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 // Local temp file has been created
-                Log.d("CHECKPOINT","onSucces callback: the file has been downloaded");
                 String path = finalLocalFile.getPath();
                 Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 100,100);
                 mPicture1.setImageBitmap(bitmap);
@@ -78,7 +76,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 // Local temp file has been created
-                Log.d("CHECKPOINT","the file has been downloaded");
                 String path = finalLocalFile2.getPath();
                 Bitmap bitmap = extractThumbnail(BitmapFactory.decodeFile(path), 100, 100);
                 mPicture2.setImageBitmap(bitmap);
@@ -89,6 +86,5 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 // Handle any errors
             }
         });
-        Log.d("CHECKPOINT", "bindToPost: completed");
     }
 }

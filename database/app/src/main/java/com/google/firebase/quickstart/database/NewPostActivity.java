@@ -108,7 +108,6 @@ public class NewPostActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         final String uid = getUid();
-        Log.d("CHECKPOINTS", "the callback was called in main for the completion of the camera activity");
 
         if(resultCode == RESULT_OK) {
             Bitmap bitmap;
@@ -199,7 +198,6 @@ public class NewPostActivity extends BaseActivity {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Log.d("CHECKPOINT", "writeNewPost() " + key);
         address = getUid().toString() + "/" + key + "/one";
         address2 = getUid().toString() + "/" + key + "/two";
         Post post = new Post(userId, username, address, address2);
@@ -222,7 +220,6 @@ public class NewPostActivity extends BaseActivity {
         writeToCloudStorage(destinationNode, bitmap);
         writeToCloudStorage(destinationNode2, bitmap2);
         mDatabase.updateChildren(childUpdates);
-        Log.d("CHECKPOINT", "writeNewPost() " + key);
         mDatabase.child("posts").child(key).child(getUid().toString()).setValue(99);//child(key).child(getUid().toString()).setValue(true);
     }
 
@@ -248,47 +245,36 @@ public class NewPostActivity extends BaseActivity {
     };
 
     private void launchCamera() {
-        Log.d("CHECKPOINTS", "helper method called: launch the camera");
 
         // Create the capture image intent
-        Log.d("CHECKPOINTS", "start launch camera call");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Log.d("CHECKPOINTS", "intent created");
 
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the temporary File where the photo should go
-            Log.d("CHECKPOINTS", "there does exist a camera activity");
 
             File photoFile = null;
             try {
-                Log.d("CHECKPOINTS", "we are going to try to create a temp file");
                 photoFile = createTempImageFile(this);
-                Log.d("CHECKPOINTS", "we created a temp file");
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.d("CHECKPOINTS", "oh man, time to throw an error");
                 ex.printStackTrace();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
 
-                Log.d("CHECKPOINTS", "temp file was created, proceeding...");
                 // Get the path of the temporary file
                 if(mPictureOne) {
                     mTempPhotoPath = photoFile.getAbsolutePath();
                 } else {
                     mTempPhotoPath2 = photoFile.getAbsolutePath();
                 }
-                Log.d("CHECKPOINTS", "We have an absolute path: " + mTempPhotoPath);
                 // Get the content URI for the image file
                 Uri photoURI = FileProvider.getUriForFile(this,
                         FILE_PROVIDER_AUTHORITY,
                         photoFile);
-                Log.d("CHECKPOINTS", "the photo uri was recorded successfully");
                 // Add the URI so the camera can store the image
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                Log.d("CHECKPOINTS", "Added the photo uri to the take picture intent");
                 // Launch the camera activity
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -304,7 +290,6 @@ public class NewPostActivity extends BaseActivity {
     }
 
     static File createTempImageFile(Context context) throws IOException {
-        Log.d("CHECKPOINTS", "helper method called: createTempImageFile");
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());

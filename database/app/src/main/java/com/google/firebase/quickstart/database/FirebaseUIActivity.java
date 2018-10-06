@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.quickstart.database.models.User;
+import com.google.firebase.quickstart.database.utilities.Util;
 
 import java.util.Collections;
 
@@ -25,11 +27,21 @@ import java.util.Collections;
 public class FirebaseUIActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private DatabaseReference mDatabase;
 
     private FirebaseAuth mAuth;
 
 
     private TextView mDetailView;
+
+
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mDatabase.child("users").child(userId).setValue(user);
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_firebase_ui);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = Util.getDatabase().getReference();
 
 
         mDetailView = findViewById(R.id.detail);
@@ -62,6 +75,14 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -70,6 +91,8 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
             if (resultCode == RESULT_OK) {
                 // Sign in succeeded
                 FirebaseUser user = mAuth.getCurrentUser();
+                String username = usernameFromEmail(user.getEmail());
+                writeNewUser(user.getUid(), username, user.getEmail());
                 boolean verified = user.isEmailVerified();
                 if(verified) {
                     startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));

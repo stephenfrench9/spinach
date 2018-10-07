@@ -3,6 +3,7 @@ package com.google.firebase.quickstart.database;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +44,9 @@ public class PostDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+
+        ActionBar greg = getSupportActionBar();
+        greg.hide();
 
 
         // Get post key from intent

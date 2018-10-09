@@ -67,30 +67,47 @@ public class NewPostActivity extends BaseActivity {
     private StorageReference mRoot;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("silver", "onSaveInstanceState(): start");
+
+        Log.d("silver", "onSaveInstanceState(): saving mPictureOne: " + String.valueOf(mPictureOne));
+        outState.putBoolean("mPictureOne", mPictureOne);
+        Log.d("silver", "onSaveInstanceState(): saving mTempPhotoPath: " + String.valueOf(mTempPhotoPath));
+        outState.putString("mTempPhotoPath", mTempPhotoPath);
+        Log.d("silver", "onSaveInstanceState(): saving mTempPhotoPath2: " + String.valueOf(mTempPhotoPath2));
+        outState.putString("mTempPhotoPath2", mTempPhotoPath2);
+
+        Log.d("silver", "onSaveInstanceState(): end");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        Log.d("silver", "onCreate(): start");
 
+        setContentView(R.layout.activity_new_post);
         ActionBar greg = getSupportActionBar();
         greg.hide();
-
 
         // [START initialize_database_ref]
         mDatabase = Util.getDatabase().getReference();
         // [END initialize_database_ref]
-
+        mPictureOne = false;
+        mTempPhotoPath = "";
+        mTempPhotoPath2 = "";
         mSubmitButton = findViewById(R.id.fab_submit_post);
         mTakePicture = findViewById(R.id.picture);
         mTakePicture2 = findViewById(R.id.picture2);
         mNewPicture = findViewById(R.id.newPicture);
         mNewPicture2 = findViewById(R.id.newPicture2);
-
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitPost();
             }
         });
+        mRoot = FirebaseStorage.getInstance().getReference();
         mTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,23 +123,53 @@ public class NewPostActivity extends BaseActivity {
             }
         });
 
-        mRoot = FirebaseStorage.getInstance().getReference();
+        
+        try {
+            mPictureOne = savedInstanceState.getBoolean("mPictureOne");
+            Log.d("silver","onCreate(): recovered mPictureOne: " + String.valueOf(mPictureOne));
+            mTempPhotoPath = savedInstanceState.getString("mTempPhotoPath");
+            Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath);
+            mTempPhotoPath2 = savedInstanceState.getString("mTempPhotoPath2");
+            Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath2);
+        } catch (Exception e) {
+            Log.d("silver", "caught a little exception, no biggie");
+            e.printStackTrace();
+        }
+        Log.d("silver", "onCreate(): end");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("silver", "onDestroy(): start");
+        Log.d("silver", "onDestroy(): end");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
+        Log.d("silver", "onActivityResult(): start");
         final String uid = getUid();
+        Log.d("silver", "onActivityResult(): one");
 
         if(resultCode == RESULT_OK) {
+            Log.d("silver", "onActivityResult(): two");
+
             Bitmap bitmap;
+            Log.d("silver", "onActivityResult(): three");
+
             // Get the data from an ImageView as bytes
 
             if(mPictureOne) {
+                Log.d("silver", "onActivityResult(): four");
+
 //                bitmap = resamplePic(this, mTempPhotoPath);
                 try {
+                    Log.d("silver", "onActivityResult(): make Bitmap");
+                    Log.d("silver", "onActivityResult(): value of mTempPhotoPath is " + mTempPhotoPath);
                     Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
+                    Log.d("silver", "onActivityResult(): Bitmap Successfully made, place in the image view");
                     mNewPicture.setImageBitmap(compressedImageBitmap);
+                    Log.d("silver", "onActivityResult(): bitmap successfully placed into the image view");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -144,6 +191,9 @@ public class NewPostActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "the camera did not successfully took a foto", Toast.LENGTH_LONG).show();
         }
+
+        Log.d("silver", "onActivityResult(): end");
+
     }
 
     private void submitPost() {
@@ -250,6 +300,7 @@ public class NewPostActivity extends BaseActivity {
     };
 
     private void launchCamera() {
+        Log.d("silver", "launchCamera(): start");
 
         // Create the capture image intent
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -284,6 +335,7 @@ public class NewPostActivity extends BaseActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
+        Log.d("silver", "launchCamera(): end");
     }
 
     private void setEditingEnabled(boolean enabled) {

@@ -123,13 +123,26 @@ public class NewPostActivity extends BaseActivity {
             }
         });
 
-        if(savedInstanceState == null) {//recover some class variables
+        if(savedInstanceState != null) {//recover some class variables
             mPictureOne = savedInstanceState.getBoolean("mPictureOne");
             Log.d("silver","onCreate(): recovered mPictureOne: " + String.valueOf(mPictureOne));
             mTempPhotoPath = savedInstanceState.getString("mTempPhotoPath");
             Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath);
             mTempPhotoPath2 = savedInstanceState.getString("mTempPhotoPath2");
             Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath2);
+
+            Bitmap compressedImageBitmap = null;
+            Bitmap compressedImageBitmap2 = null;
+            try {
+                compressedImageBitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
+                compressedImageBitmap2 = new Compressor(this).compressToBitmap(new File(mTempPhotoPath2));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d("silver", "onActivityResult(): Bitmap Successfully made, place in the image view");
+            mNewPicture.setImageBitmap(compressedImageBitmap);
+            mNewPicture2.setImageBitmap(compressedImageBitmap2);
         }
 
         Log.d("silver", "onCreate(): end");

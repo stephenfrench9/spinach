@@ -123,18 +123,15 @@ public class NewPostActivity extends BaseActivity {
             }
         });
 
-        
-        try {
+        if(savedInstanceState == null) {//recover some class variables
             mPictureOne = savedInstanceState.getBoolean("mPictureOne");
             Log.d("silver","onCreate(): recovered mPictureOne: " + String.valueOf(mPictureOne));
             mTempPhotoPath = savedInstanceState.getString("mTempPhotoPath");
             Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath);
             mTempPhotoPath2 = savedInstanceState.getString("mTempPhotoPath2");
             Log.d("silver","onCreate(): recovered mTempPhotoPath: " + mTempPhotoPath2);
-        } catch (Exception e) {
-            Log.d("silver", "caught a little exception, no biggie");
-            e.printStackTrace();
         }
+
         Log.d("silver", "onCreate(): end");
     }
 

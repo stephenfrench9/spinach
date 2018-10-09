@@ -43,9 +43,6 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".NewPostActivity" />
 
-        <activity android:name=".SignInActivity">
-        </activity>
-
         <activity android:name=".PostDetailActivity"></activity>
 
     </application>

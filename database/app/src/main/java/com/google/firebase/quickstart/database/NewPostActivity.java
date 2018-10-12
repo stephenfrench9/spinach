@@ -267,7 +267,7 @@ public class NewPostActivity extends BaseActivity {
 
     private void writeToCloudStorage(StorageReference destinationNode, Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] bitmapT = baos.toByteArray();
 
         UploadTask uploadTask = destinationNode.putBytes(bitmapT);

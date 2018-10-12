@@ -16,7 +16,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="26dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:id="@+id/textViewOne"
@@ -42,7 +42,7 @@
         android:id="@+id/bottom_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginBottom="8dp"
         android:weightSum="1.0">
         <ImageView

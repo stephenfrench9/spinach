@@ -79,21 +79,18 @@ public class PostDetailActivity extends BaseActivity {
         GlideApp.with(this).load(node2).into(mImageView2);
 
         //load the votes
-        mOne = new VoteListener(mTextView1,"This: ");
-        mTwo = new VoteListener(mTextView2, "That: ");
+        mOne = new VoteListener(mTextView1,"");
+        mTwo = new VoteListener(mTextView2, "");
 
         mPostReference.child("one").addListenerForSingleValueEvent(mOne);
         mPostReference.child("two").addListenerForSingleValueEvent(mTwo);
         Log.d("silver","onCreate(): done ");
-
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.d("silver", "onConfigurationChanged(): start");
-        Toast.makeText(this, "the configuration has changed.", Toast.LENGTH_LONG).show();
-        Log.d("silver", "onConfigurationChanged(): end");
+
     }
 
     @Override
@@ -145,9 +142,7 @@ public class PostDetailActivity extends BaseActivity {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
             Integer votes = dataSnapshot.getValue(Integer.class);
-            tvi.setText(id + votes.toString());
-
-
+            tvi.setText(votes.toString());
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {

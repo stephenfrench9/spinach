@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.google.firebase.quickstart.database"
-    android:versionCode="1"
-    android:versionName="texas">
+    android:versionCode="2"
+    android:versionName="california">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

@@ -131,6 +131,12 @@ public class NewPostActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if(compressedImageBitmap != null) {
+                mTakePicture.setVisibility(View.INVISIBLE);
+            }
+            if(compressedImageBitmap2 != null) {
+                mTakePicture2.setVisibility(View.INVISIBLE);
+            }
             mNewPicture.setImageBitmap(compressedImageBitmap);
             mNewPicture2.setImageBitmap(compressedImageBitmap2);
         }
@@ -158,6 +164,7 @@ public class NewPostActivity extends BaseActivity {
                 try {
                     Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
                     mNewPicture.setImageBitmap(compressedImageBitmap);
+                    mTakePicture.setVisibility(View.INVISIBLE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -166,6 +173,7 @@ public class NewPostActivity extends BaseActivity {
                 try {
                     Bitmap compressedImageBitmap2 = new Compressor(this).compressToBitmap(new File(mTempPhotoPath2));
                     mNewPicture2.setImageBitmap(compressedImageBitmap2);
+                    mTakePicture2.setVisibility(View.INVISIBLE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -370,5 +378,15 @@ public class NewPostActivity extends BaseActivity {
         bmOptions.inSampleSize = scaleFactor;
 
         return BitmapFactory.decodeFile(imagePath);
+    }
+
+    public void imageOneClicked(View view) {
+        mPictureOne=true;
+        launchCamera();
+    }
+
+    public void imageTwoClicked(View view) {
+        mPictureOne=false;
+        launchCamera();
     }
 }

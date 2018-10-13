@@ -7,49 +7,50 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <LinearLayout
-        android:id="@+id/top_box"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:id="@+id/picture"
+        android:text="This"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/picture2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/picture2"
+        android:layout_margin="5dp"
+        android:text="That"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+
+    <ImageView
+        android:id="@+id/newPicture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="imageOneClicked"
+        app:layout_constraintBottom_toTopOf="@id/newPicture2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/picture"
-            android:text="picture one"
-            android:layout_margin="5dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/picture2"
-            android:layout_margin="5dp"
-            android:text="picture two"/>
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/bottom_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        android:weightSum="1.0"
-        app:layout_constraintTop_toBottomOf="@id/top_box"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:id="@+id/newPicture"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:id="@+id/newPicture2"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/newPicture2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="imageTwoClicked"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newPicture" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_submit_post"

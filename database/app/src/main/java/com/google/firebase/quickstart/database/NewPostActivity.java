@@ -184,9 +184,8 @@ public class NewPostActivity extends BaseActivity {
 //                mNewPicture2.setImageBitmap(bitmap);
             }
 
-            Toast.makeText(this, "the camera successfully took a foto", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "the camera did not successfully took a foto", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Camera failed, try again.", Toast.LENGTH_LONG).show();
         }
 
 
@@ -219,7 +218,7 @@ public class NewPostActivity extends BaseActivity {
                         // [START_EXCLUDE]
                         if (user == null) {
                             // User is null, error out
-                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+
                             Toast.makeText(NewPostActivity.this,
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
@@ -236,7 +235,7 @@ public class NewPostActivity extends BaseActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+
                         // [START_EXCLUDE]
                         setEditingEnabled(true);
                         // [END_EXCLUDE]

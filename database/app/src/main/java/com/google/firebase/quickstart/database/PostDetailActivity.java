@@ -45,7 +45,6 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("silver","onCreate(): start ");
 
         setContentView(R.layout.activity_post_detail);
 
@@ -84,7 +83,6 @@ public class PostDetailActivity extends BaseActivity {
 
         mPostReference.child("one").addListenerForSingleValueEvent(mOne);
         mPostReference.child("two").addListenerForSingleValueEvent(mTwo);
-        Log.d("silver","onCreate(): done ");
     }
 
     @Override
@@ -96,7 +94,6 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("silver", "onStart(): start");
         //get the author from the post
 //        mPostListener = new ValueEventListener() {
 //            @Override
@@ -112,23 +109,18 @@ public class PostDetailActivity extends BaseActivity {
 //        };
 
 //        mPostReference.child("author").addListenerForSingleValueEvent(mPostListener);
-        Log.d("silver", "onStart(): end");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("silver", "onStop(): start");
 //        mPostReference.child("one").removeEventListener(mOne);
 //        mPostReference.child("two").removeEventListener(mTwo);
-        Log.d("silver", "onStop(): end");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("silver", "onDestroy(): start");
-        Log.d("silver", "onDestroy(): end");
     }
 
     class VoteListener implements ValueEventListener {
@@ -149,5 +141,4 @@ public class PostDetailActivity extends BaseActivity {
 
         }
     }
-
 }

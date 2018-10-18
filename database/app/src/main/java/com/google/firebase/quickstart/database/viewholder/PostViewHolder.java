@@ -36,7 +36,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
         mPicture1 = itemView.findViewById(R.id.picture1);
         mPicture2 = itemView.findViewById(R.id.picture2);
-
     }
 
     public void bindToPost(Post post, String postKey) {

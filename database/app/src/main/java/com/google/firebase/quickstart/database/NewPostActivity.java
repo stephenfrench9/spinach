@@ -154,13 +154,9 @@ public class NewPostActivity extends BaseActivity {
         final String uid = getUid();
 
         if(resultCode == RESULT_OK) {
-
             Bitmap bitmap;
-
             // Get the data from an ImageView as bytes
-
             if(mPictureOne) {
-
 //                bitmap = resamplePic(this, mTempPhotoPath);
                 try {
                     Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(new File(mTempPhotoPath));
@@ -169,7 +165,6 @@ public class NewPostActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             } else {
                 try {
                     Bitmap compressedImageBitmap2 = new Compressor(this).compressToBitmap(new File(mTempPhotoPath2));
@@ -178,7 +173,6 @@ public class NewPostActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 //
 //                bitmap = resamplePic(this, mTempPhotoPath2);
 //                mNewPicture2.setImageBitmap(bitmap);

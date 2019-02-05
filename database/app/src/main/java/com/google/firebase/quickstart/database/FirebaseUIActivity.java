@@ -28,20 +28,14 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
     private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase;
-
     private FirebaseAuth mAuth;
-
-
     private TextView mDetailView;
-
 
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
 
         mDatabase.child("users").child(userId).setValue(user);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
